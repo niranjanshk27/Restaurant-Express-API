@@ -1,9 +1,9 @@
 {
-  "name": "express-mongoose-boilerplate",
-  "description": "A boilerplate application for express mongoose",
+  "name": "res-app",
+  "description": "RES API",
   "version": "1.0.0",
   "author": {
-    "name": "Codebrahma"
+    "name": "xander"
   },
   "engines": {
     "node": ">=6.x"

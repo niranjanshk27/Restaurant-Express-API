@@ -2,7 +2,7 @@ const Food = require('./model');
 
 // Creates a food 
 const createFood = function (req, res, next) {
-  
+  console.log("inside createFood");
   const {
     name,
     type
