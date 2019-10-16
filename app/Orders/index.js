@@ -7,7 +7,7 @@ module.exports = function (passport) {
     .post(
       '/',
       passport.authenticate('jwt', { session: false }),
-      Authorization.roleAuthorization(['user']),
+      Authorization.roleAuthorization(['customer']),
       OrderController.createOrder
     );
   
@@ -15,7 +15,7 @@ module.exports = function (passport) {
     .get(
       '/',
       passport.authenticate('jwt', { session: false }),
-      Authorization.roleAuthorization(['user']),
+      Authorization.roleAuthorization(['customer']),
       OrderController.getOrderByUser
     );
   
