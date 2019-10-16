@@ -2,13 +2,18 @@ const mongoose = require('mongoose');
 
 const Food = new mongoose.Schema({
   name: {
+    type: String,
     required: true,
-    type: String,
   },
-  type: {
-    require: true,
-    type: String,
+  category_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
   },
+  price: {
+    type: Number,
+    required: true,
+  }
 });
 
 module.exports = mongoose.model('Food', Food);

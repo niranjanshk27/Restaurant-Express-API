@@ -8,7 +8,7 @@ const Orders = new mongoose.Schema({
   },
   items: {
     type: 'Array',
-    require: true,
+    required: true,
   },
   totalCost: {
     type: Number,

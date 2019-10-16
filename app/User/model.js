@@ -1,5 +1,4 @@
-
-/*!
+/* !
  * Module dependencies
  */
 
@@ -11,6 +10,10 @@ var Schema = mongoose.Schema;
  */
 
 var UserSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
   email: {
     type: String,
     required: true
@@ -21,9 +24,17 @@ var UserSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ['admin', 'user'],
-    default: 'user',
-  }
+    enum: ['admin', 'customer', 'kitchen', 'staff'],
+    default: 'customer',
+  },
+  address: {
+    type: String,
+    required: false
+  },
+  phone: {
+    type: String,
+    required: false
+  },
 });
 
 module.exports = mongoose.model('User', UserSchema);

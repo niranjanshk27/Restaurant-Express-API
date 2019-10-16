@@ -6,19 +6,19 @@
 module.exports = function (app, passport) {
 
   // Home Routes
-  app.use('/', require('../app/Home')(passport));
+  app.use('/api', require('../app/Home')(passport));
 
   // User Routes
-  app.use('/auth', require('../app/User')(passport));
+  app.use('/api/auth', require('../app/User')(passport));
+
+  // Category Routes
+  app.use('/api/category', require('../app/Category')(passport));
 
   // Food Routes
-  app.use('/food', require('../app/Food')(passport));
-
-  // Restaurant Routes
-  app.use('/restaurant', require('../app/Restaurant')(passport));
+  app.use('/api/food', require('../app/Food')(passport));
 
   // Order Routes
-  app.use('/orders', require('../app/Orders')(passport));
+  app.use('/api/orders', require('../app/Orders')(passport));
   
 
   /**

@@ -21,7 +21,7 @@ const roleAuthorization = function (roles) {
         res
           .status(42)
           .json({
-            message: 'User Does not exist'
+            message: 'User not found'
           });
       });
   };

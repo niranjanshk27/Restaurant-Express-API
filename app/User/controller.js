@@ -4,17 +4,23 @@ const jwt = require('jsonwebtoken');
 
 const register = function (req, res, next) {
   const {
+    name,
     email,
     password,
-    admin,
+    role,
+    address,
+    phone
   } = req.body;
 
   const hashedPassword = crypto.encrypt(password);
 
   const user = new User({
+    name,
     email,
     password: hashedPassword,
-    role: admin ? 'admin' : 'user',
+    role,
+    address,
+    phone,
   });
   
   user
@@ -31,8 +37,7 @@ const register = function (req, res, next) {
 const getUsers = function (req, res, next) {
   const {
     userId
-  } = req.params;
-
+  } = req.query;
   if (userId) {
     User
       .findById(userId)
@@ -46,7 +51,6 @@ const getUsers = function (req, res, next) {
       .then(user => res.json(user))
       .catch(e => next(e));
   }
-
 };
 
 /* Delete a user */
@@ -68,7 +72,7 @@ const login = function (passport) {
     passport.authenticate('local', { session: false }, (err, user, info) => {
       if (err || !user) {
         return res.status(400).json({
-          message: 'User Id or Password is wrong',
+          message: 'Invalid Credentials',
           user   : user
         });
       }
@@ -86,7 +90,6 @@ const login = function (passport) {
       });
     })(req, res);
   };
-  
 };
 
 module.exports = {

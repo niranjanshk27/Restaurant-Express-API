@@ -1,34 +1,35 @@
 var router = require('express').Router();
-var FoodController = require('./controller');
+var CategoryController = require('./controller');
 const Authorization = require('../utils/roleAuthorization');
 
 module.exports = function (passport) {
-  /* Get all foods or get food by id*/
+
+  /* Get all categories or get a category by id*/
   router.get('/',
     passport.authenticate('jwt', { session: false }),
     Authorization.roleAuthorization(['admin', 'customer']),
-    FoodController.getAllFood
+    CategoryController.getAllCategory
   );
 
-  /* Add a new food */
+  /* Add a new category */
   router.post('/',
     passport.authenticate('jwt', { session: false }),
     Authorization.roleAuthorization(['admin']),
-    FoodController.createFood
+    CategoryController.createCategory
   );
 
-  /* Delete a food by id */
+  /* Delete a category by id */
   router.delete('/:id',
     passport.authenticate('jwt', { session: false }),
     Authorization.roleAuthorization(['admin']),
-    FoodController.deleteFoodById
+    CategoryController.deleteCategoryById
   );
   
-  /* Update a food */
+  /* Update a category by id */
   router.patch('/:id',
     passport.authenticate('jwt', { session: false }),
     Authorization.roleAuthorization(['admin']),
-    FoodController.updateFoodById
+    CategoryController.updateCategoryById
   );
 
   return router;

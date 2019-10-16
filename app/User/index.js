@@ -4,7 +4,7 @@ var UserController = require('./controller');
 module.exports = function (passport) {
   
   Router.post('/register', UserController.register);
-
+  
   Router.get('/users', UserController.getUsers);
 
   Router.delete('/:userId', passport.authenticate('jwt', { session: false }), UserController.deleteUserById);
@@ -12,4 +12,4 @@ module.exports = function (passport) {
   Router.post('/login', UserController.login(passport));
 
   return Router;
-}
+};
