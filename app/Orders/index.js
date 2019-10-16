@@ -15,7 +15,7 @@ module.exports = function (passport) {
     .get(
       '/',
       passport.authenticate('jwt', { session: false }),
-      Authorization.roleAuthorization(['customer']),
+      Authorization.roleAuthorization(['customer', 'admin']),
       OrderController.getOrderByUser
     );
   
