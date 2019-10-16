@@ -29,7 +29,7 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
-mongoose.connect(config.db);
+mongoose.connect(config.db, {useNewUrlParser: true, useUnifiedTopology: true});
 
 const connection = mongoose.connection;
 

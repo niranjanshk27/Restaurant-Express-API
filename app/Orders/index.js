@@ -16,7 +16,15 @@ module.exports = function (passport) {
       '/',
       passport.authenticate('jwt', { session: false }),
       Authorization.roleAuthorization(['admin', 'customer', 'kitchen', 'staff']),
-      OrderController.getOrderByUser
+      OrderController.getAllOrder
+    );
+
+    Router
+    .patch(
+      '/:id',
+      passport.authenticate('jwt', { session: false }),
+      Authorization.roleAuthorization(['customer']),
+      OrderController.updateStatus
     );
   
   return Router;

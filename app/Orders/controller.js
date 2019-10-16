@@ -5,7 +5,7 @@ const createOrder = function (req, res, next) {
     items,
     totalCost
   } = req.body;
-  
+
   const userId = req.user._id;
 
   const order = new Order({
@@ -42,7 +42,91 @@ const getOrderByUser = function (req, res, next) {
     .catch(e => next(e));
 };
 
+const getAllOrder = function (req, res, next) {
+  const { userId, id } = req.query;
+
+  if (userId) {
+    Order
+      .find({
+        userId,
+      })
+      .exec()
+      .then((orders) => {
+        res.json({
+          orders
+        });
+      })
+      .catch(e => next(e));
+  } else if (id) {
+    Order
+      .findById(id)
+      .exec()
+      .then(order => res.json(order))
+      .catch(e => next(e));
+  } else {
+    Order
+      .find()
+      .exec()
+      .then((orders) => {
+        res.json({
+          orders
+        });
+      })
+      .catch(e => next(e));
+  }
+
+  // // if paid =true
+  // else {
+  //   Order
+  //   .find({ paid: true })
+  //   .exec()
+  //   .then((orders) => {
+  //     res.json({
+  //       orders
+  //     });
+  //   })
+  //   .catch(e => next(e));
+  // }
+};
+
+
+const updateStatus = function (req, res, next) {
+  const { id } = req.params;
+  Order.findById(req.body.order_id)
+    .exec()
+    .then(() => {
+      Order.findByIdAndUpdate(id, req.body)
+        .exec()
+        .then(() => res.json({
+          success: true
+        }))
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+};
+
+
+// Patch only for one thing
+// const updateToPending = function (req, res, next) {
+//   const { id } = req.params;
+
+//   Order.findById(req.body.order_id)
+//     .exec()
+//     .then(() => {
+//       Order.findByIdAndUpdate(id, req.body)
+//         .exec()
+//         .then(() => res.json({
+//           success: true
+//         }))
+//         .catch(err => next(err));
+//     })
+//     .catch(err => next(err));
+// };
+
 module.exports = {
   createOrder,
   getOrderByUser,
+  getAllOrder,
+  // updateToPending,
+  updateStatus,
 };
