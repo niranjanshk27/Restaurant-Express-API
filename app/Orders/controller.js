@@ -45,27 +45,16 @@ const getOrderByUser = function (req, res, next) {
 const getAllOrder = function (req, res, next) {
   const { userId, id } = req.query;
 
-  if (userId) {
-    Order
-      .find({
-        userId,
-      })
-      .exec()
-      .then((orders) => {
-        res.json({
-          orders
-        });
-      })
-      .catch(e => next(e));
-  } else if (id) {
+  if (id) {
     Order
       .findById(id)
       .exec()
       .then(order => res.json(order))
       .catch(e => next(e));
   } else {
+    const payload = userId ? {userId} : null;
     Order
-      .find()
+      .find(payload)
       .exec()
       .then((orders) => {
         res.json({
@@ -95,12 +84,19 @@ const updateStatus = function (req, res, next) {
   Order.findById(req.body.order_id)
     .exec()
     .then(() => {
-      Order.findByIdAndUpdate(id, req.body)
+      if(['new-order', 'pending', 'ready-for-delivery', 'delivered'].includes(req.body.status)) {
+        Order.findByIdAndUpdate(id, req.body)
         .exec()
         .then(() => res.json({
           success: true
         }))
         .catch(err => next(err));
+      } else {
+        res.json({
+          success: false,
+          message: "Something went wrong"
+        })
+      }
     })
     .catch(err => next(err));
 };

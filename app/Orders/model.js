@@ -23,7 +23,6 @@ const Orders = new mongoose.Schema({
     type: Boolean,
     default: false
   }
-
 });
 
 module.exports = mongoose.model('Orders', Orders);
