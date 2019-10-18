@@ -1,9 +1,10 @@
 const Order = require('./model');
+const Food = require('../Food/model');
 
 const createOrder = function (req, res, next) {
   const {
     items,
-    totalCost
+    total
   } = req.body;
 
   const userId = req.user._id;
@@ -11,16 +12,15 @@ const createOrder = function (req, res, next) {
   const order = new Order({
     userId,
     items,
-    totalCost
+    total
   });
 
   order
     .save()
-    .then(order => {
+    .then(() => {
       res.json({
-        success: true,
-        order,
-      });
+        success: true
+      })
     });
 };
 
@@ -34,7 +34,7 @@ const getOrderByUser = function (req, res, next) {
       userId,
     })
     .exec()
-    .then((orders) => {
+    .then(orders => {
       res.json({
         orders
       });
@@ -52,7 +52,7 @@ const getAllOrder = function (req, res, next) {
       .then(order => res.json(order))
       .catch(e => next(e));
   } else {
-    const payload = userId ? {userId} : null;
+    const payload = userId ? { userId } : null;
     Order
       .find(payload)
       .exec()
@@ -63,19 +63,6 @@ const getAllOrder = function (req, res, next) {
       })
       .catch(e => next(e));
   }
-
-  // // if paid =true
-  // else {
-  //   Order
-  //   .find({ paid: true })
-  //   .exec()
-  //   .then((orders) => {
-  //     res.json({
-  //       orders
-  //     });
-  //   })
-  //   .catch(e => next(e));
-  // }
 };
 
 
@@ -84,13 +71,13 @@ const updateStatus = function (req, res, next) {
   Order.findById(req.body.order_id)
     .exec()
     .then(() => {
-      if(['new-order', 'pending', 'ready-for-delivery', 'delivered'].includes(req.body.status)) {
+      if (['new-order', 'pending', 'ready-for-delivery', 'delivered'].includes(req.body.status)) {
         Order.findByIdAndUpdate(id, req.body)
-        .exec()
-        .then(() => res.json({
-          success: true
-        }))
-        .catch(err => next(err));
+          .exec()
+          .then(() => res.json({
+            success: true
+          }))
+          .catch(err => next(err));
       } else {
         res.json({
           success: false,
@@ -101,28 +88,9 @@ const updateStatus = function (req, res, next) {
     .catch(err => next(err));
 };
 
-
-// Patch only for one thing
-// const updateToPending = function (req, res, next) {
-//   const { id } = req.params;
-
-//   Order.findById(req.body.order_id)
-//     .exec()
-//     .then(() => {
-//       Order.findByIdAndUpdate(id, req.body)
-//         .exec()
-//         .then(() => res.json({
-//           success: true
-//         }))
-//         .catch(err => next(err));
-//     })
-//     .catch(err => next(err));
-// };
-
 module.exports = {
   createOrder,
   getOrderByUser,
   getAllOrder,
-  // updateToPending,
   updateStatus,
 };
