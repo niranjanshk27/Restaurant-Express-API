@@ -3,7 +3,7 @@ const Category = require('../Category/model');
 
 // Create a food
 const createFood = function (req, res, next) {
-  const { name, category_id, price, description } = req.body;
+  const { name, category_id, price, description, image } = req.body;
 
   Category.findById(category_id)
     .exec()
@@ -12,7 +12,8 @@ const createFood = function (req, res, next) {
         name,
         category_id: category._id,
         price,
-        description
+        description,
+        image
       });
 
       food
