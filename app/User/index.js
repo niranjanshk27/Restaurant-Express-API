@@ -1,5 +1,6 @@
 var Router = require('express').Router();
 var UserController = require('./controller');
+const Authorization = require('../utils/roleAuthorization');
 
 module.exports = function (passport) {
   
@@ -7,7 +8,7 @@ module.exports = function (passport) {
   
   Router.get('/users', UserController.getUsers);
 
-  Router.delete('/:userId', passport.authenticate('jwt', { session: false }), UserController.deleteUserById);
+  Router.delete('/:userId', passport.authenticate('jwt', { session: false }), Authorization.roleAuthorization(['admin']),UserController.deleteUserById);
 
   Router.post('/login', UserController.login(passport));
 

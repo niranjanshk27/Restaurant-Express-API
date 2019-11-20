@@ -4,7 +4,7 @@ const Authorization = require('../utils/roleAuthorization');
 
 module.exports = function (passport) {
   
-  router.get('/health', 
+  router.get('/', 
     passport.authenticate('jwt', { session: false }),
     Authorization.roleAuthorization(['admin']),
     controller.index
