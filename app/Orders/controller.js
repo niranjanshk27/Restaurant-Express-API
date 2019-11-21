@@ -4,7 +4,8 @@ const Food = require('../Food/model');
 const createOrder = function (req, res, next) {
   const {
     items,
-    total
+    total,
+    tableNumber
   } = req.body;
 
   const userId = req.user._id;
@@ -12,7 +13,8 @@ const createOrder = function (req, res, next) {
   const order = new Order({
     userId,
     items,
-    total
+    total,
+    tableNumber
   });
 
   order

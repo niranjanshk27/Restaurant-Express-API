@@ -22,6 +22,10 @@ const Orders = new mongoose.Schema({
   paid:{
     type: Boolean,
     default: false
+  },
+  tableNumber:{
+    type: String,
+    required: true
   }
 });
 
